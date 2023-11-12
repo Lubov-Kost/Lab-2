@@ -1,20 +1,35 @@
-from csv import reader
+with open('books.csv') as f:
+    s = []
+    for i in f:
+        s.append(i.split(';'))
 
+    #task 1
 
-flag = 0
-output = open('result.txt', 'w')
-search = input('Search for: ')
-with open('civic.csv', 'r', encoding='windows-1251') as csvfile:
-    table = reader(csvfile, delimiter=';')
-    for row in table:
-        lower_case = row[2].lower()
-        index = lower_case.find(search.lower())
-        if index != -1:
-            print(row[2])
-            flag = 1
-            output.write(f'{row[0]}. {row[2]}. Цена {row[8]} рублей.\n')
+    k = 0 
+    for i in range(1,len(s)):
+        if len(s[i][1])>30:
+            k+=1
+    print(k)
 
-    if flag == 0:
-        print('Nothing found.')
+    #task 2 (Реализую поиск по Автору с ФИО)
 
-output.close()
+    zap = input()
+    k=0 
+    for i in range(1,len(s)):
+        if s[i][4]==zap:
+            k+=1
+            if s[i][6][6:10]=='2014' or s[i][6][6:10]=='2016' or s[i][6][6:10]=='2017':
+                print(f'{k}. {s[i][1]}')
+
+    #task 3
+
+    from random import randrange
+
+    kin = [randrange(1,len(s)) for x in range(20)]
+    
+    for i in range(20):
+        kin[i] = f'<{s[kin[i]][3]}>. <{s[kin[i]][1]}> - <{s[kin[i]][6][6:10]}>'
+
+    with open('kin.txt', 'w') as f:
+        for num, line in enumerate(kin):
+            f.write(f'{num + 1}. {line}\n')
